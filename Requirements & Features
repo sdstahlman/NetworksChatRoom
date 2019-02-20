@@ -1,0 +1,14 @@
+
+1. Basic GUI using Tkinter
+  a. Chat log
+    i. Time Stamps
+  b. Ability to destinguish between different users
+    i. Color coding
+    ii. Name plates
+  c. Chat input/typing bar
+    i. 'Send' button
+  d. Emojis?
+  e. Exit/log off button
+  f. Edit Menu?
+    i. Copy
+    ii. Paste
