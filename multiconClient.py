@@ -14,7 +14,7 @@ from socket import AF_INET, socket, SOCK_STREAM
 # Import Threading elements
 from threading import Thread
 
-#Import Tkinter for GUI
+# Import Tkinter for GUI
 import tkinter
 
 
@@ -64,7 +64,7 @@ window = tkinter.Tk()
 # Title of window
 window.title("TextTalker")
 
-messageFrame = tkinter.Frame(window)
+messageFrame = tkinter.Frame(window, width=100)
 
 myMessage = tkinter.StringVar()
 
@@ -73,7 +73,7 @@ myMessage.set("Enter message here.")
 scrollbar = tkinter.Scrollbar(messageFrame)
 
 # Handling how messages are displayed
-messageList = tkinter.Listbox(messageFrame, height=15, width=50, yscrollcommand=scrollbar.set)
+messageList = tkinter.Listbox(messageFrame, height=15, width=100, yscrollcommand=scrollbar.set)
 
 scrollbar.pack(side=tkinter.RIGHT, fill=tkinter.Y)
 
@@ -83,7 +83,7 @@ messageList.pack()
 
 messageFrame.pack()
 
-inputField = tkinter.Entry(window, textvariable=myMessage)
+inputField = tkinter.Entry(window, textvariable=myMessage, width=75)
 
 inputField.bind("<Return>", send)
 
