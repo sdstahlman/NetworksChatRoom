@@ -15,6 +15,12 @@ from socket import AF_INET, socket, SOCK_STREAM
 from threading import Thread
 
 
+# Creating broadcast method to send a message to all connected clients
+def broadcast(message, prefix = ""):
+    for sock in clients:
+        sock.send(bytes(prefix, "utf8") + message)
+
+
 # Method to search for incoming connections to the server
 def acceptIncomingConn():
     while True:
@@ -29,7 +35,7 @@ def acceptIncomingConn():
         # Keeping track of the connected client addresses
         addresses[client] = clientAddress
 
-        Thread(target = handleClient, args = (client,)).start()
+        Thread(target=handleClient, args=(client,)).start()
 
 
 # Method to define how each client is handled by the server (connections, disconnections, messages)
@@ -68,12 +74,6 @@ def handleClient(client):
             break
 
 
-# Creating broadcast method to send a message to all connected clients
-def broadcast(message, prefix = ""):
-    for sock in clients:
-        sock.send(bytes(prefix, "utf8") + message)
-
-
 # Creating clients and addresses arrays to keep track of connected clients
 clients = {}
 
@@ -85,13 +85,13 @@ HOST = '10.216.70.222'
 
 PORT = 65432
 
-BUFSIZ = 1024
+SERVERADDR = (HOST, PORT)
 
-ADDRESS = (HOST, PORT)
+BUFSIZ = 1024
 
 SERVER = socket(AF_INET, SOCK_STREAM)
 
-SERVER.bind(ADDRESS)
+SERVER.bind(SERVERADDR)
 
 
 # Listening and connecting to 5 clients
@@ -100,7 +100,7 @@ if __name__ == "__main__":
 
     print("Waiting.......")
 
-    ACCEPT_THREAD = Thread(target = acceptIncomingConn)
+    ACCEPT_THREAD = Thread(target=acceptIncomingConn)
 
     ACCEPT_THREAD.start()
 
