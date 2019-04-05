@@ -82,7 +82,7 @@ messageList.pack()
 
 messageFrame.pack()
 
-inputField = tkinter.Entry(window, textvariable=message)
+inputField = tkinter.Entry(window, textvariable=myMessage)
 
 inputField.bind("<Return>", send)
 
@@ -93,3 +93,23 @@ buttonSend = tkinter.Button(window, text="Send", command=send)
 buttonSend.pack()
 
 window.protocol("WM_DELETE_WINDOW", quit)
+
+
+# Client --> Server Connection
+HOST = input("Enter host IP: ")
+
+PORT = int(input("Enter host Port:"))
+
+SERVERADDR = (HOST, PORT)
+
+BUFSIZ = 1024
+
+clientSocket = socket(AF_INET, SOCK_STREAM)
+
+clientSocket.connect(SERVERADDR)
+
+receiveThread = Thread(target=receive)
+
+receiveThread.start()
+
+tkinter.mainloop()
