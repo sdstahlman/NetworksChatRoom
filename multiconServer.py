@@ -14,6 +14,8 @@ from socket import AF_INET, socket, SOCK_STREAM
 # Import Threading elements
 from threading import Thread
 
+# Importing date and time elements
+import datetime
 
 # Creating broadcast method to send a message to all connected clients
 def broadcast(message, prefix=""):
@@ -58,7 +60,10 @@ def handleClient(client):
         msg = client.recv(BUFSIZ)
 
         if msg != bytes("{quit}", "utf8"):
-            broadcast(msg, name + ": ")
+            # Getting current time
+            currentDT = datetime.datetime.now()
+
+            broadcast(msg, currentDT.strftime("%H:%M") + " " + name + ": ")
 
         else:
             client.send(bytes("#exit#", "utf8"))
