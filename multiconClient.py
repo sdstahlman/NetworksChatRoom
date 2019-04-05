@@ -17,86 +17,40 @@ from threading import Thread
 #Import Tkinter for GUI
 import tkinter
 
-#
-#
-#
-#
-
-
-#
-#
-#
-#
-
 
 # For recieving messages from the server
 def receive():
+
     while True:
+
         try:
-            msg = client_socket.recv(BUFSIZ).decode("utf8")
-            msg_list.insert(tkinter.END, msg)
-        except OSError:  # Possibly client has left the chat.
+            message = clientSocket.recv(BUFSIZ).decode("utf8")
+            messageList.insert(tkinter.END, message)
+
+        except OSError:
+            # Error handling for client leaving
             break
 
 
-def send(event=None):  # event is passed by binders.
-    """Handles sending of messages."""
-    msg = my_msg.get()
-    my_msg.set("")  # Clears input field.
-    client_socket.send(bytes(msg, "utf8"))
-    if msg == "{quit}":
-        client_socket.close()
-        top.quit()
+def send(event = None):
+
+    message = myMessage.get()
+
+    myMessage.set("")
+
+    clientSocket,send(bytes(message, "utf8"))
+
+    if message == "#exit#":
+        clientSocket.close()
+
+        # Quitting the UI window on exit, 'window' is the tkinter window variable
+        window.quit()
 
 
-def on_closing(event=None):
-    """This function is to be called when the window is closed."""
-    my_msg.set("{quit}")
+# Method to handle the user closing the window without exiting the chat first
+def closing(event = None):
+
+    myMessage.set("#exit#")
+
     send()
 
-
-
-# GUI Elements
-
-top = tkinter.Tk()
-
-top.title("Chirper")
-
-messages_frame = tkinter.Frame(top)
-my_msg = tkinter.StringVar()  # For the messages to be sent.
-my_msg.set("Type your messages here.")
-scrollbar = tkinter.Scrollbar(messages_frame)  # To navigate through past messages.
-# Following will contain the messages.
-msg_list = tkinter.Listbox(messages_frame, height=15, width=50, yscrollcommand=scrollbar.set)
-scrollbar.pack(side=tkinter.RIGHT, fill=tkinter.Y)
-msg_list.pack(side=tkinter.LEFT, fill=tkinter.BOTH)
-msg_list.pack()
-messages_frame.pack()
-
-entry_field = tkinter.Entry(top, textvariable=my_msg)
-entry_field.bind("<Return>", send)
-entry_field.pack()
-send_button = tkinter.Button(top, text="Send", command=send)
-send_button.pack()
-
-top.protocol("WM_DELETE_WINDOW", on_closing)
-
-# For the client to enter HOST and PORT numbers of the server
-HOST = input('Enter host: ')
-
-PORT = int(input('Enter port: '))
-
-BUFSIZ = 1024
-
-ADDR = (HOST, PORT)
-
-client_socket = socket(AF_INET, SOCK_STREAM)
-
-client_socket.connect(ADDR)
-
-receive_thread = Thread(target=receive)
-
-receive_thread.start()
-
-# Start the GUI
-tkinter.mainloop()
