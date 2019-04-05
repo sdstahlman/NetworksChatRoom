@@ -37,6 +37,7 @@ def send(event=None):
 
     message = myMessage.get()
 
+    # Makes input field blank when 'send' button is pressed
     myMessage.set("")
 
     clientSocket.send(bytes(message, "utf8"))
