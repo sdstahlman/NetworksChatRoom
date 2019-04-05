@@ -62,8 +62,8 @@ def handleClient(client):
         if msg != bytes("{quit}", "utf8"):
             # Getting current time
             currentDT = datetime.datetime.now()
-
-            broadcast(msg, currentDT.strftime("%I:%M %p") + " | " + name + ": ")
+            prefix = currentDT.strftime("%I:%M %p") + " | " + name + ": "
+            broadcast(msg, prefix)
 
         else:
             client.send(bytes("#exit#", "utf8"))
