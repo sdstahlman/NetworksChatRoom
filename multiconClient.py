@@ -32,13 +32,13 @@ def receive():
             break
 
 
-def send(event = None):
+def send(event=None):
 
     message = myMessage.get()
 
     myMessage.set("")
 
-    clientSocket,send(bytes(message, "utf8"))
+    clientSocket.send(bytes(message, "utf8"))
 
     if message == "#exit#":
         clientSocket.close()
@@ -48,9 +48,48 @@ def send(event = None):
 
 
 # Method to handle the user closing the window without exiting the chat first
-def closing(event = None):
+def quit(event=None):
 
     myMessage.set("#exit#")
 
     send()
 
+
+# GUI Creation and Customization
+
+# Creating the base GUI
+window = tkinter.Tk()
+
+# Title of window
+window.title("TextTalker")
+
+messageFrame = tkinter.Frame(window)
+
+myMessage = tkinter.StringVar()
+
+myMessage.set("Enter message here.")
+
+scrollbar = tkinter.Scrollbar(messageFrame)
+
+# Handling how messages are displayed
+messageList = tkinter.Listbox(messageFrame, height=15, width=50, yscrollcommand=scrollbar.set)
+
+scrollbar.pack(side=tkinter.RIGHT, fill=tkinter.Y)
+
+messageList.pack(side=tkinter.RIGHT, fill=tkinter.BOTH)
+
+messageList.pack()
+
+messageFrame.pack()
+
+inputField = tkinter.Entry(window, textvariable=message)
+
+inputField.bind("<Return>", send)
+
+inputField.pack()
+
+buttonSend = tkinter.Button(window, text="Send", command=send)
+
+buttonSend.pack()
+
+window.protocol("WM_DELETE_WINDOW", quit)
