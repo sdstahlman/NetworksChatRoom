@@ -63,7 +63,7 @@ def handleClient(client):
             # Getting current time
             currentDT = datetime.datetime.now()
 
-            broadcast(msg, currentDT.strftime("%H:%M") + " " + name + ": ")
+            broadcast(msg, currentDT.strftime("%I:%M %p") + " | " + name + ": ")
 
         else:
             client.send(bytes("#exit#", "utf8"))
@@ -80,7 +80,7 @@ addresses = {}
 
 # Connection info for the Server
 # NOTE: Client needs to know Host and Port Num to connect
-HOST = '172.17.110.74'
+HOST = '10.216.70.222'
 
 PORT = 65432
 
