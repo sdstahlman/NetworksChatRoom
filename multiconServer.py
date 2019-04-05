@@ -16,7 +16,7 @@ from threading import Thread
 
 
 # Creating broadcast method to send a message to all connected clients
-def broadcast(message, prefix = ""):
+def broadcast(message, prefix=""):
     for sock in clients:
         sock.send(bytes(prefix, "utf8") + message)
 
@@ -28,7 +28,7 @@ def acceptIncomingConn():
         client, clientAddress = SERVER.accept()
 
         # Printing the connected client info once connection is established
-        print("%s:%s connected." %clientAddress)
+        print("%s:%s connected." % clientAddress)
 
         client.send(bytes("Please enter your name, then press the 'Enter' key.", "utf8"))
 
@@ -41,36 +41,30 @@ def acceptIncomingConn():
 # Method to define how each client is handled by the server (connections, disconnections, messages)
 def handleClient(client):
 
-    # Storing client name for greeting
-    clientName = client.recv(BUFSIZ).decode("utf8")
+    name = client.recv(BUFSIZ).decode("utf8")
 
-    welcomeMsg = "Welcome to the chat room, $s. To exit the room, please type #exit#." %clientName
+    welcome = 'Welcome %s. Type #exit# to exit.' % name
 
-    # Greeting message displayed to client
-    client.send(bytes(welcomeMsg, "utf8"))
+    client.send(bytes(welcome, "utf8"))
 
-    chatJoinMsg = "%s has joined." %clientName
+    msg = "%s has connected." % name
 
-    # Sending 'user joined' message to all connected clients
-    broadcast(bytes(chatJoinMsg, "utf8"))
+    broadcast(bytes(msg, "utf8"))
 
-    # Keeping track of the connected client names
-    clients[client] = clientName
+    clients[client] = name
 
     while True:
 
-        message = client.recv(BUFSIZ)
+        msg = client.recv(BUFSIZ)
 
-        if message != bytes("#exit#", "utf8"):
-            broadcast(message, clientName + ": ")
+        if msg != bytes("{quit}", "utf8"):
+            broadcast(msg, name + ": ")
 
         else:
             client.send(bytes("#exit#", "utf8"))
             client.close()
-            # Remove client from the list of connected clients
             del clients[client]
-            # Display to connected users that client has left the chat
-            broadcast(bytes("%s has disconnected." %clientName, "utf8"))
+            broadcast(bytes("%s has disconnected." % name, "utf8"))
             break
 
 
@@ -81,7 +75,7 @@ addresses = {}
 
 # Connection info for the Server
 # NOTE: Client needs to know Host and Port Num to connect
-HOST = '10.216.70.222'
+HOST = '172.17.110.74'
 
 PORT = 65432
 

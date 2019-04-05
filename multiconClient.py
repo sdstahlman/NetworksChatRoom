@@ -25,6 +25,7 @@ def receive():
 
         try:
             message = clientSocket.recv(BUFSIZ).decode("utf8")
+
             messageList.insert(tkinter.END, message)
 
         except OSError:
