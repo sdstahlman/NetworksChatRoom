@@ -80,9 +80,9 @@ addresses = {}
 
 # Connection info for the Server
 # NOTE: Client needs to know Host and Port Num to connect
-HOST = '10.216.70.222'
+HOST = input("Enter YOUR IP: ")
 
-PORT = 65432
+PORT = int(input("Enter desired Port (> 3000):"))
 
 SERVERADDR = (HOST, PORT)
 
