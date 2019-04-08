@@ -17,4 +17,12 @@ Steps to run:
 
 
 
+
+
+
+Inspiration for design from Saurabh Chaturvedi via medium.com
+
+
+
 Project by: Olin, Josias, Salma, Scott
+Enjoy!
